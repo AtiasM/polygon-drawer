@@ -1,0 +1,11 @@
+<h5>please choose video to upload</h5>
+<br>
+<input
+    type="file"  
+    (change)="onFileSelected($event)">
+<button
+    *ngIf="isFileSelected" 
+    type="button" 
+    (click)="onUpload($event)">
+    Upload
+</button>
