@@ -1,0 +1,53 @@
+
+<!-- <img #primary *ngIf="loadCompleted" class="center" (click)="onImageClick($event)" src="data:image/png;base64,{{currentFrame}}" /> -->
+
+<!-- <canvas class="center" #canvas></canvas> -->
+
+
+
+
+<div style="position: relative;">
+    <!-- <button style="background: #14731D; position: absolute;">Save</button> -->
+    <canvas #canvas height="600" width="1200"></canvas>
+    
+</div>
+
+
+
+<ng-image-slider
+    [images]="gallery"
+    [imagePopup] = "false"
+    (arrowClick) = "onArrowClicked($event)"
+    (imageClick)="onGalleryImageClick($event)"
+    #nav>
+</ng-image-slider>
+
+frame rate:  <input type="number" [(ngModel)]="fps" > 
+frame number:  <input type="number" [(ngModel)]="frameNumber"> 
+<button (click)="onGoButtonClicked()">Go</button>
+<button mat-raised-button (click)="onSaveButtonClicked()" class="center" color="primary">Save</button>
+
+
+
+
+<!-- using the gallery library -->
+<!-- <div id="outer">
+
+    
+    <ngx-gallery 
+        id="inner"
+        *ngIf="loadCompleted" 
+        (previewChange)="imageReady($event)"	
+        [options]="galleryOptions" 
+        [images]="galleryImages" 
+        >
+    </ngx-gallery>
+
+    <div>
+        navigate to specific frame:
+        <input type="text">
+        <button (click)="onBroswerFrame($event)">browser</button>
+    </div>
+</div> -->
+
+

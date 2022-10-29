@@ -1,0 +1,7 @@
+<h3 class="center">Please choose the video you want to edit</h3>
+
+<mat-nav-list>
+    <mat-list-item *ngFor="let videoName of videosNames">
+       <button matLine (click)="editVideo(videoName)">{{ videoName }}</button>
+    </mat-list-item>
+  </mat-nav-list>
