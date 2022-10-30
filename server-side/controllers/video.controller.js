@@ -17,7 +17,6 @@ async function uploadVideo(req,res){
         await videoService.saveGeometricFile(file.name, user, '{}')
         user.videos.videos.push(file.name)
         await user.videos.save()
-        debugger
         res.send({data: 'success'})
     }catch(err){ 
         return res.status(400).send(err.message)
@@ -45,7 +44,7 @@ async function getFrames(req, res){
     const frameNumber = req.query.start
     const fps = req.query.fps
     try{
-        const framesArray = await videoService.createFrames(videoName, user, frameNumber, fps, 10)
+        const framesArray = await videoService.createFrames(videoName, user, frameNumber, fps, 5)
         res.send(framesArray)
     }catch(err){
         res.status(400).send({err: err})

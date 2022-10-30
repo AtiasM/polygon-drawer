@@ -1,9 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { NgxGalleryAction, NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { VideoService } from '../services/video.service';
-import { WebSocketService } from '../services/web-socket.service';
 
 @Component({
   selector: 'app-video-editor',
@@ -125,6 +122,7 @@ export class VideoEditorComponent implements OnInit {
     if(this.videoName){
       this.saveCurrentFrameClicks()
       await this.videoService.saveGeometricFile(this.videoName, this.geometricFile)
+      alert("saved successfully")
     }
   }
 

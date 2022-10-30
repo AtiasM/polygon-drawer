@@ -46,13 +46,13 @@ async function createFrames(filename, user, startIndex, fps, numberOfFrames){
         output: `${folderPath}/%d.png`,
         offsets: offsets
     })
-    return getFramesArray(user, filename,startIndex, offsets)
+    return getFramesArray(user, filename,startIndex, offsets, numberOfFrames)
 }
 
-async function getFramesArray(user, filename, index, offsets){
+async function getFramesArray(user, filename, index, offsets, numberOfFrames){
     const frames = []
     const folderPath = createVideoFolderPath(user._id, filename)
-    for(let i = 1; i <= 10; i++){
+    for(let i = 1; i <= numberOfFrames; i++){
         const frameName = `1_${i.toString()}.png`
         const file = await readFile(`${folderPath}/${frameName}`)
         const base64Frame = Buffer.from(file).toString('base64') 

@@ -9,7 +9,6 @@ const cors = require('cors')
 const authRoute = require('./routes/auth')
 const exampleRoute = require('./routes/example')
 const fileUpload = require('express-fileupload');
-const WebSocket = require('ws')
 const http = require('http')
 
 dotenv.config()
