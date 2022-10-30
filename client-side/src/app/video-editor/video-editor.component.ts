@@ -35,9 +35,12 @@ export class VideoEditorComponent implements OnInit {
   }
 
   async onGoButtonClicked(){
-    if(this.videoName){
+    if(this.videoName && this.fps > 0 && this.frameNumber >=0){
       await this.loadPolygonDrawer(this.videoName)
       console.table(this.gallery)
+    }
+    else{
+      alert("please choose legal frame/fps/image")
     }
   }
 
