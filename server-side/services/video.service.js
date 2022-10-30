@@ -4,13 +4,26 @@ const fs = require('fs')
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
+var ffmpeg = require('ffmpeg')
+const { getVideoDurationInSeconds } = require('get-video-duration')
+
+async function getVideoDuration(user, filename){
+    const folderPath = createVideoFolderPath(user._id, filename)
+    return await getVideoDurationInSeconds(`${folderPath}/${filename}`) * 1000
+
+}
 async function saveVideoOnDisk(file, user){
-    const folderPath = createVideoFolderPath(user._id, file.name)
-    await file.mv(`${folderPath}/${file.name}`, err => {
-        if(err){
-            throw new Error(err)
-        }
-    }) 
+    return await new Promise((res, reject) => {
+        const folderPath = createVideoFolderPath(user._id, file.name)
+        return file.mv(`${folderPath}/${file.name}`, err => {
+            if(err){
+                console.log("error")
+                throw new Error(err)
+            }
+            return res()
+        }) 
+
+    })
 }
 
 async function getGeometricFile(filename, user){
@@ -34,11 +47,14 @@ async function saveGeometricFile(filename, user, geometricFile){
 
 async function createFrames(filename, user, startIndex, fps, numberOfFrames){
     const rate = Math.floor(1000 / fps)
-    const start = startIndex  * rate
+    const start = (startIndex -1) * rate
     const end = start + rate * numberOfFrames
     const offsets = []
     const folderPath = createVideoFolderPath(user._id, filename)
-    for(let i = start; i <= end; i+=rate){
+    const duration = await getVideoDurationInSeconds(`${folderPath}/${filename}`) * 1000
+    let numOfCreatedFrames = 0
+    for(let i = start; i < end && i <= duration; i+=rate){
+        numOfCreatedFrames++
         offsets.push(i)
     }
     await extractFrames({
@@ -46,19 +62,21 @@ async function createFrames(filename, user, startIndex, fps, numberOfFrames){
         output: `${folderPath}/%d.png`,
         offsets: offsets
     })
-    return getFramesArray(user, filename,startIndex, offsets, numberOfFrames)
+    return getFramesArray(user, filename,startIndex, offsets, numOfCreatedFrames)
 }
 
 async function getFramesArray(user, filename, index, offsets, numberOfFrames){
     const frames = []
     const folderPath = createVideoFolderPath(user._id, filename)
+    
+
     for(let i = 1; i <= numberOfFrames; i++){
         const frameName = `1_${i.toString()}.png`
         const file = await readFile(`${folderPath}/${frameName}`)
         const base64Frame = Buffer.from(file).toString('base64') 
         frames.push({
             img: base64Frame,
-            frameNumber: offsets[i]
+            frameNumber: offsets[i - 1]
         })
         index++;
     }
@@ -86,5 +104,6 @@ module.exports = {
     getUserVideoNames,
     createFrames,
     saveGeometricFile,
-    getGeometricFile
+    getGeometricFile,
+    getVideoDuration
 }

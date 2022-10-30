@@ -114,7 +114,7 @@ export class VideoEditorComponent implements OnInit {
         image: `data:image/png;base64,${base64Img.img}`,
         thumbImage: `data:image/png;base64,${base64Img.img}`,
         frameNumber: base64Img.frameNumber,
-        title: (base64Img.frameNumber * this.fps)/(1000),
+        title: ((base64Img.frameNumber * this.fps)/(1000)).toString(),
       }
     })
   }

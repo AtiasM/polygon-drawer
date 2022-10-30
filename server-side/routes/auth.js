@@ -39,11 +39,7 @@ router.post('/register', async (req,res) => {
         fs.mkdir(path.join(__dirname, `../videos/${savedUser._id}`), (err) => {
             if(err){
                 console.log(err)
-            }
-            else{
-                console.log('dir created successfully!!')
-            }
-            
+            }      
         })
         res.send({id: savedUser._id})
 
