@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { NgImageSliderComponent } from 'ng-image-slider';
 import { VideoService } from '../services/video.service';
 
 @Component({
@@ -10,6 +11,9 @@ import { VideoService } from '../services/video.service';
 export class VideoEditorComponent implements OnInit {
   @ViewChild('canvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
+
+  @ViewChild('nav', { static: true })
+  slider!: NgImageSliderComponent
 
   videoName: string | null = null
   currentFrame: any
@@ -27,6 +31,7 @@ export class VideoEditorComponent implements OnInit {
   ngOnInit(): void {
     this.videoName = this.router.snapshot.paramMap.get('videoName')
     this.init()
+    
   }
 
   async onGoButtonClicked(){
@@ -109,7 +114,7 @@ export class VideoEditorComponent implements OnInit {
         image: `data:image/png;base64,${base64Img.img}`,
         thumbImage: `data:image/png;base64,${base64Img.img}`,
         frameNumber: base64Img.frameNumber,
-        title: (base64Img.frameNumber * this.fps)/(1000)
+        title: (base64Img.frameNumber * this.fps)/(1000),
       }
     })
   }
