@@ -47,7 +47,7 @@ async function saveGeometricFile(filename, user, geometricFile){
 
 async function createFrames(filename, user, startIndex, fps, numberOfFrames){
     const rate = Math.floor(1000 / fps)
-    const start = (startIndex -1) * rate
+    const start = (startIndex) * rate
     const end = start + rate * numberOfFrames
     const offsets = []
     const folderPath = createVideoFolderPath(user._id, filename)
@@ -57,12 +57,15 @@ async function createFrames(filename, user, startIndex, fps, numberOfFrames){
         numOfCreatedFrames++
         offsets.push(i)
     }
-    await extractFrames({
-        input: `${folderPath}/${filename}`,
-        output: `${folderPath}/%d.png`,
-        offsets: offsets
-    })
-    return getFramesArray(user, filename,startIndex, offsets, numOfCreatedFrames)
+    if(offsets.length > 0){
+        await extractFrames({
+            input: `${folderPath}/${filename}`,
+            output: `${folderPath}/%d.png`,
+            offsets: offsets
+        })
+        return getFramesArray(user, filename,startIndex, offsets, numOfCreatedFrames)
+    }
+    return offsets
 }
 
 async function getFramesArray(user, filename, index, offsets, numberOfFrames){

@@ -19,7 +19,7 @@ export class VideoEditorComponent implements OnInit {
   currentFrame: any
   gallery: any[] = []
   fps: number = 1
-  frameNumber: number = 1
+  frameNumber: number = 0
   clicks: any[] = []
   currentImgObject: any
   geometricFile: any 
@@ -44,7 +44,9 @@ export class VideoEditorComponent implements OnInit {
   async loadPolygonDrawer(videoName: string){
     const base64ImagesArray = await this.videoService.getFramesArray(videoName, this.frameNumber, this.fps)
     this.gallery = this.createNgxGalleryArray(base64ImagesArray)
-    this.setMainImage(this.gallery[0])
+    if(this.gallery.length > 0){
+      this.setMainImage(this.gallery[0])
+    }
   }
 
   async init(){
