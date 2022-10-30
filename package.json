@@ -4,11 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init": "cd server-side/ && npm i --force && cd .. && cd client-side/ && npm i --force"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.0"
-  }
+  "license": "ISC"
 }
