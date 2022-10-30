@@ -19,7 +19,7 @@ export class VideoEditorComponent implements OnInit {
   clicks: any[] = []
   currentImgObject: any
   geometricFile: any 
-
+  imageSize = {width: '20%', height: '20%'}
   constructor(
     private videoService: VideoService,
     private router: ActivatedRoute) { }
@@ -108,7 +108,8 @@ export class VideoEditorComponent implements OnInit {
       return {
         image: `data:image/png;base64,${base64Img.img}`,
         thumbImage: `data:image/png;base64,${base64Img.img}`,
-        frameNumber: base64Img.frameNumber
+        frameNumber: base64Img.frameNumber,
+        title: (base64Img.frameNumber * this.fps)/(1000)
       }
     })
   }
