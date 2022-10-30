@@ -15,7 +15,6 @@ async function uploadVideo(req,res){
         }
         await videoService.saveVideoOnDisk(file, user)
         await videoService.saveGeometricFile(file.name, user, '{}')
-        const duration = await videoService.getVideoDuration(user, file.name)
         user.videos.videos.push(file.name)
         await user.videos.save()
         res.send({data: 'success'})
