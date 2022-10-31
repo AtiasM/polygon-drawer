@@ -131,7 +131,6 @@ export class VideoEditorComponent implements OnInit {
 
   async onArrowClicked(event: any){
     if(event.action == 'next' && event.nextDisable){
-      // this.slider.infiniteNextImg()
       await this.handleNext()
     }
     else if(event.action == 'prev' && event.prevDisable){
