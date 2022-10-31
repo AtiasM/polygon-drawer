@@ -12,6 +12,16 @@ export class VideoService {
   async getVideoNames(){
     return (await this.httpService.get(this.videoURL).toPromise() || []) as string[]
   }
+  async getVideoDuration(video: string){
+    const params = {
+      video: video
+    }
+    const result = await this.httpService.get(this.videoURL + '/duration', {
+      params: params
+    }).toPromise() as any
+    return result?.duration || 0
+
+  }
   async getFramesArray(videoName: string, frameNumber: number, fps: number){
     const params = {
       video: videoName,
@@ -22,6 +32,20 @@ export class VideoService {
       params: params
     }).toPromise()
     return res as any[]
+
+  }
+  async getNextFrame(currentFrameOffset: number, videoName: string, fps: number, duration:number){
+    const rate = Math.floor(1000 / fps)
+    const nextFrameOffset = currentFrameOffset + rate 
+    if(nextFrameOffset > duration){
+      return undefined
+    }
+    const params = {
+      video: videoName,
+      frame: nextFrameOffset
+    }
+    return await this.httpService.get(this.videoURL + '/frame',{ params: params } ).toPromise()
+    //return the next frame by offset 
 
   }
   async getFrames(videoName: string, frameNumber: number){

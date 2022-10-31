@@ -24,6 +24,7 @@ export class VideoEditorComponent implements OnInit {
   currentImgObject: any
   geometricFile: any 
   imageSize = {width: '20%', height: '20%'}
+  duration: number = 0
   constructor(
     private videoService: VideoService,
     private router: ActivatedRoute) { }
@@ -54,6 +55,7 @@ export class VideoEditorComponent implements OnInit {
 
   async init(){
     if(this.videoName){
+      this.duration = await this.videoService.getVideoDuration(this.videoName)
       this.geometricFile = await this.videoService.getGeometricFile(this.videoName)
       await this.loadPolygonDrawer(this.videoName) 
     }
@@ -115,18 +117,46 @@ export class VideoEditorComponent implements OnInit {
 
   createNgxGalleryArray(base64Images: any[]){
     return base64Images.map(base64Img => {
-      return {
-        image: `data:image/png;base64,${base64Img.img}`,
-        thumbImage: `data:image/png;base64,${base64Img.img}`,
-        frameNumber: base64Img.frameNumber,
-        title: ((base64Img.frameNumber * this.fps)/(1000)).toString(),
-      }
+      return this.createNgxGalleryImage(base64Img)
     })
   }
+  createNgxGalleryImage(base64Img: any){
+    return {
+      image: `data:image/png;base64,${base64Img.img}`,
+      thumbImage: `data:image/png;base64,${base64Img.img}`,
+      frameNumber: base64Img.frameNumber,
+      title: ((base64Img.frameNumber * this.fps)/(1000)).toString(),
+    }
+  }
 
-  onArrowClicked(event: any){
-    console.log(`arrow clicked!`);
-    console.table(event);
+  async onArrowClicked(event: any){
+    if(event.action == 'next' && event.nextDisable){
+      // this.slider.infiniteNextImg()
+      await this.handleNext()
+    }
+    else if(event.action == 'prev' && event.prevDisable){
+      await this.handlePrev()
+    }
+  }
+  
+  async handleNext(){
+    const lastFrame = this.gallery[this.gallery.length - 1].frameNumber
+    const nextFrame = await this.videoService.getNextFrame(lastFrame, this.videoName!, this.fps, this.duration)
+    if(nextFrame){
+      const galleryImage = this.createNgxGalleryImage(nextFrame)
+      this.gallery.push(galleryImage)
+      this.gallery = this.gallery.slice(1)
+    }
+  }
+
+  async handlePrev(){
+    const firstFrame = this.gallery[0].frameNumber
+    const prevFrame =  await this.videoService.getNextFrame(firstFrame, this.videoName!, this.fps, this.duration)
+    if(prevFrame){
+      const galleryImage = this.createNgxGalleryImage(prevFrame)
+      this.gallery.unshift(prevFrame)
+      this.gallery.pop()
+    }
   }
 
   async onSaveButtonClicked(){

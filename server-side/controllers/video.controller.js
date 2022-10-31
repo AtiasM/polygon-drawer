@@ -40,7 +40,7 @@ async function getUserVideoNames(req, res){
 async function getSingleFrame(req,res){
     const user = await userService.getUser(req.header('auth-token'))
     const filename = req.query.video
-    const frame = req.query.frame
+    const frame = Number(req.query.frame)
     const result = await videoService.createSingleFrame(filename, user,frame)
     res.send(result)
 }
