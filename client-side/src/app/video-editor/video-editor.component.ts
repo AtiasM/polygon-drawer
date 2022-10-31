@@ -77,7 +77,6 @@ export class VideoEditorComponent implements OnInit {
   }
 
   redraw(ctx: CanvasRenderingContext2D){
-    //in order to clear the canvas, reload image
     ctx.canvas.width = ctx.canvas.width;
     ctx.drawImage(this.currentImgObject, 0, 0, ctx.canvas.width,  ctx.canvas.height)
 
@@ -137,6 +136,11 @@ export class VideoEditorComponent implements OnInit {
       await this.handlePrev()
     }
   }
+  onClearImageClicked(){
+    this.geometricFile[this.currentFrame.frameNumber.toString()] = []
+    this.clicks = []
+    this.setMainImage(this.currentFrame)
+  }
   
   async handleNext(){
     const lastFrame = this.gallery[this.gallery.length - 1].frameNumber
@@ -189,10 +193,9 @@ export class VideoEditorComponent implements OnInit {
 
   drawInitialPolygons(ctx: CanvasRenderingContext2D){
     const imageClicks = this.geometricFile[this.currentFrame.frameNumber.toString()]?.coordinates
-    if(imageClicks && ctx){
+    if(imageClicks && imageClicks.length > 0 && ctx){
       imageClicks.map((click: any) => {
         this.clicks.push(click)
-        // this.redraw(ctx)
       })
       this.redraw(ctx)
     }

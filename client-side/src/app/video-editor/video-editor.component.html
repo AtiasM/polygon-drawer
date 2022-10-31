@@ -22,10 +22,12 @@
     [imageSize]="imageSize"
     #nav>
 </ng-image-slider>
-
-frame rate:  <input type="number" [(ngModel)]="fps" > 
-frame number:  <input type="number" [(ngModel)]="frameNumber"> 
-<button (click)="onGoButtonClicked()">Go</button>
+<div style="display: block;">
+    frame rate:  <input type="number" [(ngModel)]="fps" > 
+    frame number:  <input type="number" [(ngModel)]="frameNumber"> 
+    <button (click)="onGoButtonClicked()">Go</button>
+    <button (click)="onClearImageClicked()" mat-raised-button color="warn" style="float: right;">Clear Image</button>
+</div>
 <button mat-raised-button (click)="onSaveButtonClicked()" class="center" color="primary">Save</button>
 
 
