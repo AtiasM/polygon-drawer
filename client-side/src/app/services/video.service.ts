@@ -34,6 +34,14 @@ export class VideoService {
     return res as any[]
 
   }
+  isLegalFrame(fps: number, frameNumber: number, duration: number){
+    const rate = Math.floor(1000 / fps)
+    const frameOffset = rate * frameNumber
+    if(frameOffset < 0 || frameOffset > duration){
+      return false
+    }
+    return true
+  }
   async getNextFrame(currentFrameOffset: number, videoName: string, fps: number, duration:number){
     const rate = Math.floor(1000 / fps)
     const nextFrameOffset = currentFrameOffset + rate 

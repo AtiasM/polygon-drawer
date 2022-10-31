@@ -25,6 +25,8 @@ export class VideoEditorComponent implements OnInit {
   geometricFile: any 
   imageSize = {width: '20%', height: '20%'}
   duration: number = 0
+  framesToSkip: number = 0
+  currentFps: number = 1
   constructor(
     private videoService: VideoService,
     private router: ActivatedRoute) { }
@@ -36,7 +38,9 @@ export class VideoEditorComponent implements OnInit {
   }
 
   async onGoButtonClicked(){
-    if(this.videoName && this.fps > 0 && this.frameNumber >=0){
+    if(this.videoName && this.fps > 0 && this.frameNumber >=0 && this.videoService.isLegalFrame(this.fps, this.frameNumber, this.duration)){
+      this.currentFps = this.fps
+      this.saveCurrentFrameClicks()
       await this.loadPolygonDrawer(this.videoName)
       console.table(this.gallery)
     }
@@ -46,6 +50,7 @@ export class VideoEditorComponent implements OnInit {
   }
 
   async loadPolygonDrawer(videoName: string){
+    this.clicks = []
     const base64ImagesArray = await this.videoService.getFramesArray(videoName, this.frameNumber, this.fps)
     this.gallery = this.createNgxGalleryArray(base64ImagesArray)
     if(this.gallery.length > 0){
@@ -74,6 +79,23 @@ export class VideoEditorComponent implements OnInit {
       })
       this.redraw(ctx)
     }
+  }
+  async onSkipButtonClicked(){
+    if(this.gallery?.length > 0 && this.framesToSkip != 0){
+      const frameToMove = ((this.gallery[0].frameNumber/1000) * this.currentFps) + this.framesToSkip
+      if(this.videoName && this.currentFps > 0 && this.frameNumber >=0 && this.videoService.isLegalFrame(this.currentFps, ((this.gallery[0].frameNumber * this.currentFps))/(1000) + this.framesToSkip, this.duration)){
+        await this.move(frameToMove)
+      }
+    }else{
+      await this.init()
+    }
+  }
+
+  async move(frameNumber: number){
+    this.saveCurrentFrameClicks()
+    this.frameNumber = frameNumber
+    this.framesToSkip = 0
+    await this.loadPolygonDrawer(this.videoName!)
   }
 
   redraw(ctx: CanvasRenderingContext2D){

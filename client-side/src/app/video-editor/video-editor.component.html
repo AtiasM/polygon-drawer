@@ -27,6 +27,11 @@
     frame number:  <input type="number" [(ngModel)]="frameNumber"> 
     <button (click)="onGoButtonClicked()">Go</button>
     <button (click)="onClearImageClicked()" mat-raised-button color="warn" style="float: right;">Clear Image</button>
+
+</div>
+<div style="display: block;">
+    skip frames: <input type="number" [(ngModel)] = "framesToSkip">
+    <button (click)="onSkipButtonClicked()" >Skip</button>
 </div>
 <button mat-raised-button (click)="onSaveButtonClicked()" class="center" color="primary">Save</button>
 
