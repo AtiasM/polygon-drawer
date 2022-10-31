@@ -43,6 +43,22 @@ async function saveFramesOnDisk(file, user){
 async function saveGeometricFile(filename, user, geometricFile){
     const folderPath = createVideoFolderPath(user._id, filename)
     await writeFile(`${folderPath}/geometric.json`, geometricFile, "utf-8")
+}
+async function createSingleFrame(filename, user, offset){
+    const offsets = [offset]
+    const folderPath = createVideoFolderPath(user._id, filename)
+    await extractFrames({
+        input: `${folderPath}/${filename}`,
+        output: `${folderPath}/frame.png`,
+        offsets: offsets
+    })
+    const file = await readFile(`${folderPath}/frame.png`)
+    const base64Frame = Buffer.from(file).toString('base64') 
+    const frame = {
+        img: base64Frame,
+        frameNumber: offsets[0]
+    }
+    return frame
 }   
 
 async function createFrames(filename, user, startIndex, fps, numberOfFrames){
@@ -108,5 +124,6 @@ module.exports = {
     createFrames,
     saveGeometricFile,
     getGeometricFile,
-    getVideoDuration
+    getVideoDuration,
+    createSingleFrame
 }

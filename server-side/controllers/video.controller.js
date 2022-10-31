@@ -22,6 +22,12 @@ async function uploadVideo(req,res){
         return res.status(400).send(err.message)
     }
 }
+async function getDuration(req,res){
+    const user = await userService.getUser(req.header('auth-token'))
+    const filename = req.query.video 
+    const duration = await videoService.getVideoDuration(user, filename)
+    return res.send({duration: duration} )
+}
 async function getGeometricFile(req, res){
     const user = await userService.getUser(req.header('auth-token'))
     const geometricFile = await videoService.getGeometricFile(req.query.video, user)
@@ -30,6 +36,13 @@ async function getGeometricFile(req, res){
 async function getUserVideoNames(req, res){
     const user = await userService.getUser(req.header('auth-token'))
     res.send(user.videos.videos)
+}
+async function getSingleFrame(req,res){
+    const user = await userService.getUser(req.header('auth-token'))
+    const filename = req.query.video
+    const frame = req.query.frame
+    const result = await videoService.createSingleFrame(filename, user,frame)
+    res.send(result)
 }
 async function saveGeometricFile(req, res){
     const user = await userService.getUser(req.header('auth-token'))
@@ -57,5 +70,7 @@ module.exports = {
     getUserVideoNames,
     getFrames,
     getGeometricFile,
-    saveGeometricFile
+    saveGeometricFile,
+    getDuration,
+    getSingleFrame
 }

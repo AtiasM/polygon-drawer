@@ -27,6 +27,8 @@ router.get('/frames', async (req,res) => {
     return res.sendFile(filePath)
 
 })
+
+router.get('/frame', videoController.getSingleFrame)
 router.get('/get-frames', videoController.getFrames)
 
 router.get('/geometric-file', videoController.getGeometricFile)
@@ -34,6 +36,8 @@ router.get('/geometric-file', videoController.getGeometricFile)
 router.post('/geometric-file', videoController.saveGeometricFile)
 
 router.get('/', videoController.getUserVideoNames)
+
+router.get('/duration', videoController.getDuration)
 // router.get('/user', async(req,res) => {
 //     res.send(await utilitiesService.getUser(req.header('auth-token')))
 // })
