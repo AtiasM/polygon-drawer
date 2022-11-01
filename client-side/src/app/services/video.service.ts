@@ -88,12 +88,10 @@ export class VideoService {
       const fd = new FormData()
       fd.append('file', file, file.name)
       await this.httpService.post(this.videoURL, fd).toPromise()
-      debugger
       alert('success!!!')
       return true
     }
     catch(err: any){
-      debugger
       alert(err.error)
       return false
     }

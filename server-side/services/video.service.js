@@ -65,6 +65,7 @@ async function createFrames(filename, user, startIndex, fps, numberOfFrames){
     const rate = Math.floor(1000 / fps)
     const start = (startIndex) * rate
     const end = start + rate * numberOfFrames
+    
     const offsets = []
     const folderPath = createVideoFolderPath(user._id, filename)
     const duration = await getVideoDurationInSeconds(`${folderPath}/${filename}`) * 1000
