@@ -6,7 +6,7 @@ import { BASE_URL } from '../metadata';
   providedIn: 'root'
 })
 export class VideoService {
-  videoURL = BASE_URL + 'example'
+  videoURL = BASE_URL + 'video'
   constructor(private httpService: HttpClient) { }
 
   async getVideoNames(){
@@ -88,10 +88,12 @@ export class VideoService {
       const fd = new FormData()
       fd.append('file', file, file.name)
       await this.httpService.post(this.videoURL, fd).toPromise()
+      debugger
       alert('success!!!')
       return true
     }
     catch(err: any){
+      debugger
       alert(err.error)
       return false
     }

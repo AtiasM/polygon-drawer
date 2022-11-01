@@ -7,7 +7,7 @@ const auth = require('./validator')
 const cors = require('cors')
 //import routes
 const authRoute = require('./routes/auth')
-const exampleRoute = require('./routes/example')
+const videoRoute = require('./routes/video')
 const fileUpload = require('express-fileupload');
 const http = require('http')
 
@@ -35,7 +35,7 @@ app.use('/api/user', authRoute)
 app.use('/', auth)
 
 //token access only routes
-app.use('/api/example', exampleRoute)
+app.use('/api/video', videoRoute)
 
 //start server
 server.listen(process.env.PORT, () => {
