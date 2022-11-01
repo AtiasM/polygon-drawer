@@ -43,8 +43,8 @@ export class VideoEditorComponent implements OnInit {
   onShowDiffClicked(){
     this.dialog.open(ShowDiffDialogComponent, {
       data: {
-        prev: this.geometricFile,
-        curr: this.prevGeometricFile
+        prev: this.prevGeometricFile,
+        curr: this.geometricFile
       }
     });
   }
