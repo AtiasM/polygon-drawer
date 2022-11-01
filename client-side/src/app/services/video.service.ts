@@ -53,25 +53,8 @@ export class VideoService {
       frame: nextFrameOffset
     }
     return await this.httpService.get(this.videoURL + '/frame',{ params: params } ).toPromise()
-    //return the next frame by offset 
+  }
 
-  }
-  async getFrames(videoName: string, frameNumber: number){
-    // videoName = "Screen Recording 2022-10-10 at 0.03.47.mov"
-    // frameNumber = 0
-    const headers = new HttpHeaders();
-    headers.append("Accept", "image/png");
-    const params = {
-      video: videoName,
-      frame_number: frameNumber.toString()
-    }
-    const res =  await this.httpService.get(this.videoURL + '/frames', { 
-      params: params,
-      headers: headers,
-      responseType: 'arraybuffer'
-    }).toPromise()
-    return res
-  }
   ArrayBufferToBase64(buffer: any){
     var binary = '';
     var bytes = new Uint8Array( buffer );
