@@ -25,7 +25,6 @@ export class VideoEditorComponent implements OnInit {
   clicks: any[] = []
   currentImgObject: any
   geometricFile: any = {}
-  prevGeometricFile: any = {}
   imageSize = {width: '20%', height: '20%'}
   duration: number = 0
   framesToSkip: number = 0
@@ -40,10 +39,11 @@ export class VideoEditorComponent implements OnInit {
     this.init()
     
   }
-  onShowDiffClicked(){
+  async onShowDiffClicked(){
+    const prevGeometricFile = await this.videoService.getGeometricFile(this.videoName!)
     this.dialog.open(ShowDiffDialogComponent, {
       data: {
-        prev: this.prevGeometricFile,
+        prev: prevGeometricFile,
         curr: this.geometricFile
       }
     });
@@ -74,7 +74,6 @@ export class VideoEditorComponent implements OnInit {
     if(this.videoName){
       this.duration = await this.videoService.getVideoDuration(this.videoName)
       this.geometricFile = await this.videoService.getGeometricFile(this.videoName)
-      this.prevGeometricFile = JSON.parse(JSON.stringify(this.geometricFile))
       await this.loadPolygonDrawer(this.videoName) 
     }
   }
@@ -91,6 +90,7 @@ export class VideoEditorComponent implements OnInit {
         y: e.offsetY
       })
       this.redraw(ctx)
+      this.geometricFile[this.currentFrame.frameNumber.toString()] = this.clicks
     }
   }
   async onSkipButtonClicked(){
