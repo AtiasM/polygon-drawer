@@ -16,4 +16,4 @@ in order to use:
 
 7. ```cd client-side```
 
-8.```npm start```
+8. ```npm start```
