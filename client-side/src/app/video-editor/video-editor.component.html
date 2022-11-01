@@ -1,18 +1,7 @@
 
-<!-- <img #primary *ngIf="loadCompleted" class="center" (click)="onImageClick($event)" src="data:image/png;base64,{{currentFrame}}" /> -->
-
-<!-- <canvas class="center" #canvas></canvas> -->
-
-
-
-
 <div style="position: relative;">
-    <!-- <button style="background: #14731D; position: absolute;">Save</button> -->
     <canvas #canvas height="600" width="1200"></canvas>
-    
 </div>
-
-
 
 <ng-image-slider
     [images]="gallery"
@@ -22,6 +11,7 @@
     [imageSize]="imageSize"
     #nav>
 </ng-image-slider>
+
 <div style="display: block;">
     frame rate:  <input type="number" [(ngModel)]="fps" > 
     frame number:  <input type="number" [(ngModel)]="frameNumber"> 
@@ -29,11 +19,14 @@
     <button (click)="onClearImageClicked()" mat-raised-button color="warn" style="float: right;">Clear Image</button>
 
 </div>
+
 <div style="display: block;">
     skip frames: <input type="number" [(ngModel)] = "framesToSkip">
     <button (click)="onSkipButtonClicked()" >Skip</button>
 </div>
+
 <button mat-raised-button (click)="onSaveButtonClicked()" class="center" color="primary">Save</button>
+
 <button mat-raised-button (click)="onShowDiffClicked()" color="accent" class="center">Show Diff</button>
 
 <b>The show diff will show the difference only after save!</b>
