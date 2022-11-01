@@ -4,24 +4,17 @@
 in order to use:
 1. clone the project
 
-2. inside the root folder type:
-  ```npm
-  npm run init
-  ```
+2. inside the root folder type: ```npm run init```
   this will install all the dependencies in the client-side and in the server-side
   
 3. put the .env file that I sent you inside the server-side folder
 
-4.```npm
-    cd server-side```
+4.```cd server-side```
 
-5. ```npm
-  npm start```
+5. ```npm start```
 
 6. open new process in the terminal
 
-7. ```npm
-    cd client-side```
+7. ```cd client-side```
 
-8.```npm
-    npm start```
+8.```npm start```
