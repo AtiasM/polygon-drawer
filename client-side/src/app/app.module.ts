@@ -20,6 +20,9 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgImageSliderModule } from 'ng-image-slider';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ShowDiffDialogComponent } from './show-diff-dialog/show-diff-dialog.component';
+import { NgxObjectDiffModule } from 'ngx-object-diff';
 
 
 @NgModule({
@@ -29,7 +32,8 @@ import {MatButtonModule} from '@angular/material/button';
     RegisterComponent,
     VideoUploadComponent,
     VideoEditorComponent,
-    VideoMenuComponent
+    VideoMenuComponent,
+    ShowDiffDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,11 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     FontAwesomeModule,
     NgImageSliderModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    NgxObjectDiffModule,
+    
+    
   ],
   providers: [
     AuthService,

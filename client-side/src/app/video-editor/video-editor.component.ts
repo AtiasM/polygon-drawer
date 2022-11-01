@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { NgImageSliderComponent } from 'ng-image-slider';
 import { VideoService } from '../services/video.service';
+import { ShowDiffDialogComponent } from '../show-diff-dialog/show-diff-dialog.component';
 
 @Component({
   selector: 'app-video-editor',
@@ -22,19 +24,29 @@ export class VideoEditorComponent implements OnInit {
   frameNumber: number = 0
   clicks: any[] = []
   currentImgObject: any
-  geometricFile: any 
+  geometricFile: any = {}
+  prevGeometricFile: any = {}
   imageSize = {width: '20%', height: '20%'}
   duration: number = 0
   framesToSkip: number = 0
   currentFps: number = 1
   constructor(
     private videoService: VideoService,
-    private router: ActivatedRoute) { }
+    private router: ActivatedRoute,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.videoName = this.router.snapshot.paramMap.get('videoName')
     this.init()
     
+  }
+  onShowDiffClicked(){
+    this.dialog.open(ShowDiffDialogComponent, {
+      data: {
+        prev: this.geometricFile,
+        curr: this.prevGeometricFile
+      }
+    });
   }
 
   async onGoButtonClicked(){
@@ -62,6 +74,7 @@ export class VideoEditorComponent implements OnInit {
     if(this.videoName){
       this.duration = await this.videoService.getVideoDuration(this.videoName)
       this.geometricFile = await this.videoService.getGeometricFile(this.videoName)
+      this.prevGeometricFile = JSON.parse(JSON.stringify(this.geometricFile))
       await this.loadPolygonDrawer(this.videoName) 
     }
   }

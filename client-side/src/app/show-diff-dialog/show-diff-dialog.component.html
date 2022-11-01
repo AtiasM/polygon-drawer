@@ -1,0 +1,14 @@
+<mat-dialog-content>
+
+    <div style="position: relative; float: left;">
+        <p>Before</p>
+        <ngx-object-diff style="float: left;" [obj]="previous"></ngx-object-diff>
+    </div>
+    <div style="position: relative; float: right ;">
+        <p>After</p>
+        <ngx-object-diff style="float: right;" [obj]="current"></ngx-object-diff>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button (click)="onCloseButtonClicked()" class="center" color="primary">Close</button>
+</mat-dialog-actions>
