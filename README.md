@@ -8,7 +8,7 @@ in order to use:
   
 3. put the .env file that I sent you inside the server-side folder
 
-4.```cd server-side```
+4. ```cd server-side```
 
 5. ```npm start```
 
