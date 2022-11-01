@@ -95,7 +95,7 @@ export class VideoEditorComponent implements OnInit {
   }
   async onSkipButtonClicked(){
     if(this.gallery?.length > 0 && this.framesToSkip != 0){
-      const frameToMove = ((this.gallery[0].frameNumber/1000) * this.currentFps) + this.framesToSkip
+      const frameToMove = Math.round(((this.gallery[0].frameNumber/1000) * this.currentFps)) + this.framesToSkip
       if(this.videoName && this.currentFps > 0 && this.frameNumber >=0 && this.videoService.isLegalFrame(this.currentFps, ((this.gallery[0].frameNumber * this.currentFps))/(1000) + this.framesToSkip, this.duration)){
         await this.move(frameToMove)
       }
@@ -107,7 +107,6 @@ export class VideoEditorComponent implements OnInit {
   async move(frameNumber: number){
     this.saveCurrentFrameClicks()
     this.frameNumber = frameNumber
-    this.framesToSkip = 0
     await this.loadPolygonDrawer(this.videoName!)
   }
 
